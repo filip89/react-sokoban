@@ -1,0 +1,13 @@
+$blockSize: 40px;
+$floorColor: gray;
+
+.map {
+  background-color: $floorColor;
+}
+
+.tile {
+  display: inline-block;
+  width: $blockSize;
+  height: $blockSize;
+  border: 1px solid darkgray;
+}
