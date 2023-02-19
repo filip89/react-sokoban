@@ -1,1 +1,1 @@
-export type Location = [number, number];
+export type Location = { x: number; y: number };

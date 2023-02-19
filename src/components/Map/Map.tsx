@@ -1,15 +1,14 @@
 import styles from './Map.module.scss';
 import { MapScheme } from '../../types/MapScheme';
-import { PropsWithChildren } from 'react';
 import MapObject from '../MapObject/MapObject';
 import { TileSign } from '../../types/TileSign';
 import { signs } from '../../data/signs';
 
 type Props = {
   scheme: MapScheme;
-} & PropsWithChildren;
+};
 
-const Map = ({ scheme, children }: Props) => {
+const Map = ({ scheme }: Props) => {
   return (
     <div className={styles.map}>
       {scheme.map((row, rowIndex) => (
@@ -21,7 +20,6 @@ const Map = ({ scheme, children }: Props) => {
           ))}
         </div>
       ))}
-      {children}
     </div>
   );
 };

@@ -1,40 +1,34 @@
 import styles from './Game.module.scss';
 import Map from '../Map/Map';
 import { map1 } from '../../maps/map1';
+import Player from '../Player/Player';
 import { useEffect, useState } from 'react';
 import { extractPlayerMapLocation } from '../../utils/extractPlayerMapLocation';
-import { movements } from '../../data/movements';
-import Player from '../Player/Player';
+import useInputDirection from '../../hooks/useInputDirection';
 
 function Game() {
+  const inputDirection = useInputDirection();
   const [playerLocation, setPlayerLocation] = useState(() =>
     extractPlayerMapLocation(map1),
   );
 
-  console.log(playerLocation);
-
   useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      const movement = movements.find(
-        (movement) => movement.code === event.code,
-      );
-      if (movement && playerLocation) {
-        setPlayerLocation((playerPos) => [
-          playerPos[0] + movement.direction[0],
-          playerPos[1] + movement.direction[1],
-        ]);
-      }
+    if (!inputDirection) return;
+    const updateLocation = () => {
+      setPlayerLocation((playerLocation) => ({
+        x: playerLocation.x + inputDirection.x,
+        y: playerLocation.y + inputDirection.y,
+      }));
     };
-    document.addEventListener('keydown', onKeyDown);
-
-    return () => document.removeEventListener('keydown', onKeyDown);
-  }, []);
+    updateLocation();
+    const interval = setInterval(updateLocation, 200);
+    return () => clearInterval(interval);
+  }, [inputDirection]);
 
   return (
     <div className={styles.container}>
-      <Map scheme={map1}>
-        <Player location={playerLocation} />
-      </Map>
+      <Map scheme={map1} />
+      <Player location={playerLocation} />
     </div>
   );
 }

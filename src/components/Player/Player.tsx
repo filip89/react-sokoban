@@ -11,7 +11,7 @@ const Player = ({ location }: Props) => {
   return (
     <div
       className={styles.player}
-      style={{ top: cssDistance[0], left: cssDistance[1] }}
+      style={{ top: cssDistance.y, left: cssDistance.x }}
     >
       <MapObject>@</MapObject>
     </div>
@@ -22,5 +22,5 @@ export default Player;
 
 function getLocationCssDistance(location: Location) {
   const stepSize = 40;
-  return [location[0] * stepSize, location[1] * stepSize];
+  return { x: location.x * stepSize, y: location.y * stepSize };
 }

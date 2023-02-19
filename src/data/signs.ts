@@ -1,4 +1,5 @@
 export const signs = {
+  empty: '0',
   player: '@',
   wall: '#',
   box: 'B',

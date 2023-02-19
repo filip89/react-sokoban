@@ -6,7 +6,7 @@ export function extractPlayerMapLocation(map: MapScheme): Location {
   for (let row = 0; row < map.length; row++) {
     const playerColumn = map[row].findIndex((tile) => tile === signs.player);
     if (~playerColumn) {
-      return [row, playerColumn];
+      return { x: playerColumn, y: row };
     }
   }
   throw 'No player in map';
