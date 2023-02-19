@@ -1,10 +1,12 @@
-import Map from './components/Map/Map';
-import { map1 } from './maps/map1';
+import styles from './Game.module.scss';
+import Map from '../Map/Map';
+import { map1 } from '../../maps/map1';
 import { useEffect, useState } from 'react';
-import { extractPlayerMapLocation } from './utils/extractPlayerMapLocation';
-import { movements } from './data/movements';
+import { extractPlayerMapLocation } from '../../utils/extractPlayerMapLocation';
+import { movements } from '../../data/movements';
+import Player from '../Player/Player';
 
-function App() {
+function Game() {
   const [playerLocation, setPlayerLocation] = useState(() =>
     extractPlayerMapLocation(map1),
   );
@@ -29,10 +31,12 @@ function App() {
   }, []);
 
   return (
-    <div>
-      <Map scheme={map1} />
+    <div className={styles.container}>
+      <Map scheme={map1}>
+        <Player location={playerLocation} />
+      </Map>
     </div>
   );
 }
 
-export default App;
+export default Game;
