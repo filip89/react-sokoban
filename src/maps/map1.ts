@@ -1,6 +1,6 @@
 import { MapScheme } from '../types/MapScheme';
 
-export const map1: MapScheme = [
+export const map2: MapScheme = [
   ['0', '0', '_', '_', '_', '_', '_', '_', '_', '_'],
   ['0', '0', '_', '_', '_', '_', '_', '_', '_', '_'],
   ['_', '_', '_', '_', '_', '#', '_', '_', '_', '_'],

@@ -1,28 +1,14 @@
-import styles from './Player.module.scss';
-import MapObject from '../MapObject/MapObject';
-import { Location } from '../../types/Location';
+import MovableObject, {
+  MovableObjectProps,
+} from '../MovableObject/MovableObject';
+import { signs } from '../../data/signs';
 
-type Props = {
-  location: Location;
-  onMovementEnd: () => unknown;
-};
-
-const Player = ({ location, onMovementEnd }: Props) => {
-  const cssDistance = getLocationCssDistance(location);
+const Player = ({ location, onMovementEnd }: MovableObjectProps) => {
   return (
-    <div
-      className={styles.player}
-      style={{ top: cssDistance.y, left: cssDistance.x }}
-      onTransitionEnd={onMovementEnd}
-    >
-      <MapObject>@</MapObject>
-    </div>
+    <MovableObject location={location} onMovementEnd={onMovementEnd}>
+      {signs.player}
+    </MovableObject>
   );
 };
 
 export default Player;
-
-function getLocationCssDistance(location: Location) {
-  const stepSize = 40;
-  return { x: location.x * stepSize, y: location.y * stepSize };
-}
