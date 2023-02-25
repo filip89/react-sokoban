@@ -8,7 +8,14 @@ import { keyInputs, KeyInput } from '../data/keyInputs';
  * pressed input becomes primary, if primary already existed it now becomes secondary
  * when primary input is unpressed then secondary, if exists, becomes primary
  * */
-function useInputDirection(): Direction | undefined {
+/*
+ * could have used another useEffect (for primaryInput?.direction change) instead of onChange callback,
+ * but it is better to handle all the event related updates inside the event handler at once
+ * than to chain the useEffects
+ * */
+function useInputDirection(
+  onChange: (direction?: Direction) => unknown,
+): Direction | undefined {
   const [primaryInput, setPrimaryInput] = useState<KeyInput>();
   const [secondaryInput, setSecondaryInput] = useState<KeyInput>();
 
@@ -17,23 +24,32 @@ function useInputDirection(): Direction | undefined {
       if (primaryInput?.code === code || secondaryInput?.code === code) return;
       const keyInput = keyInputs.find((keyInput) => keyInput.code === code);
       if (!keyInput) return;
+      const newPrimaryInput = keyInput;
+      let newSecondaryInput = secondaryInput;
       if (primaryInput) {
-        setSecondaryInput(primaryInput);
+        newSecondaryInput = primaryInput;
       }
-      setPrimaryInput(keyInput);
+      setPrimaryInput(newPrimaryInput);
+      setSecondaryInput(newSecondaryInput);
+      onChange(newPrimaryInput?.direction);
     };
 
     const keyUpHandler = ({ code }: KeyboardEvent): void => {
+      let newPrimaryInput = primaryInput;
+      let newSecondaryInput = secondaryInput;
       if (primaryInput?.code === code) {
         if (secondaryInput) {
-          setPrimaryInput(secondaryInput);
-          setSecondaryInput(undefined);
+          newPrimaryInput = secondaryInput;
+          newSecondaryInput = undefined;
         } else {
-          setPrimaryInput(undefined);
+          newPrimaryInput = undefined;
         }
       } else if (secondaryInput?.code === code) {
-        setSecondaryInput(undefined);
+        newSecondaryInput = undefined;
       }
+      setPrimaryInput(newPrimaryInput);
+      setSecondaryInput(newSecondaryInput);
+      onChange(newPrimaryInput?.direction);
     };
 
     document.addEventListener('keydown', keyDownHandler);
@@ -42,7 +58,7 @@ function useInputDirection(): Direction | undefined {
       document.removeEventListener('keydown', keyDownHandler);
       document.removeEventListener('keyup', keyUpHandler);
     };
-  }, [primaryInput, secondaryInput]);
+  }, [primaryInput, secondaryInput, onChange]);
 
   return primaryInput?.direction;
 }
