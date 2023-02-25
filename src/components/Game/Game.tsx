@@ -11,24 +11,30 @@ function Game() {
   const [playerLocation, setPlayerLocation] = useState(() =>
     extractPlayerMapLocation(map1),
   );
+  const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
-    if (!inputDirection) return;
-    const updateLocation = () => {
-      setPlayerLocation((playerLocation) => ({
-        x: playerLocation.x + inputDirection.x,
-        y: playerLocation.y + inputDirection.y,
-      }));
-    };
-    updateLocation();
-    const interval = setInterval(updateLocation, 200);
-    return () => clearInterval(interval);
-  }, [inputDirection]);
+    attemptMovement();
+  });
+
+  function attemptMovement() {
+    if (isAnimating || !inputDirection) return;
+    setPlayerLocation({
+      x: playerLocation.x + inputDirection.x,
+      y: playerLocation.y + inputDirection.y,
+    });
+    setIsAnimating(true);
+  }
+
+  function handleMovementEnd() {
+    setIsAnimating(false);
+    attemptMovement();
+  }
 
   return (
     <div className={styles.container}>
       <Map scheme={map1} />
-      <Player location={playerLocation} />
+      <Player location={playerLocation} onMovementEnd={handleMovementEnd} />
     </div>
   );
 }

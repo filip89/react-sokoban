@@ -5,7 +5,7 @@ import { keyInputs, KeyInput } from '../data/keyInputs';
 /*
  * memorizes two inputs - primary and secondary
  * primary input determines the desired direction
- * pressed input becomes primary, if primary already exists it now becomes secondary
+ * pressed input becomes primary, if primary already existed it now becomes secondary
  * when primary input is unpressed then secondary, if exists, becomes primary
  * */
 function useInputDirection(): Direction | undefined {
