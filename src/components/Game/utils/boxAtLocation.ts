@@ -1,5 +1,5 @@
-import { Location } from '../types/Location';
-import { Box } from '../types/Box';
+import { Location } from '../../../types/Location';
+import { Box } from '../../../types/Box';
 import { isSameLocations } from './isSameLocations';
 
 export function boxAtLocation(location: Location, boxes: Box[]) {

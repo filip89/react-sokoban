@@ -1,7 +1,7 @@
-import { Location } from '../types/Location';
-import { MapScheme } from '../types/MapScheme';
-import { signs } from '../data/signs';
-import { Box } from '../types/Box';
+import { Location } from '../../../types/Location';
+import { MapScheme } from '../../../types/MapScheme';
+import { signs } from '../../../data/signs';
+import { Box } from '../../../types/Box';
 
 type ReturnValue = {
   player: Location;

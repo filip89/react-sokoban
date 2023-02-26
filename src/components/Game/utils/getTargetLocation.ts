@@ -1,5 +1,5 @@
-import { Location } from '../types/Location';
-import { Direction } from '../types/Direction';
+import { Location } from '../../../types/Location';
+import { Direction } from '../../../types/Direction';
 
 export function getTargetLocation(
   currentLocation: Location,

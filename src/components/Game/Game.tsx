@@ -4,12 +4,16 @@ import { map2 } from '../../maps/map2';
 import Player from '../Player/Player';
 import { useEffect, useMemo, useState } from 'react';
 import useInputDirection from '../../hooks/useInputDirection/useInputDirection';
-import { extractLocationsFromMap } from '../../utils/extractLocationsFromMap';
+import { extractLocationsFromMap } from './utils/extractLocationsFromMap';
 import Box from '../Box/Box';
-import { boxAtLocation } from '../../utils/boxAtLocation';
-import { getTargetLocation } from '../../utils/getTargetLocation';
-import { isLocationTraversable } from '../../utils/isLocationTraversable';
-import { isSameLocations } from '../../utils/isSameLocations';
+import { boxAtLocation } from './utils/boxAtLocation';
+import { getTargetLocation } from './utils/getTargetLocation';
+import { isLocationTraversable } from './utils/isLocationTraversable';
+import { checkIfBoxesDelivered } from './utils/checkIfBoxesDelivered';
+import { Direction } from '../../types/Direction';
+import { Location } from '../../types/Location';
+
+//TODO add locations state reducer
 
 function Game() {
   const {
@@ -22,13 +26,10 @@ function Game() {
   const [isAnimating, setIsAnimating] = useState(false);
   const inputDirection = useInputDirection();
 
-  const isSolved = useMemo(() => {
-    return boxes.every((box) =>
-      destinations.find((destination) =>
-        isSameLocations(destination, box.location),
-      ),
-    );
-  }, [destinations, boxes]);
+  const isSolved = useMemo(
+    () => checkIfBoxesDelivered(boxes, destinations),
+    [destinations, boxes],
+  );
 
   useEffect(() => {
     attemptMovement();
@@ -41,19 +42,15 @@ function Game() {
 
   function attemptMovement() {
     if (!inputDirection || isSolved || isAnimating) return;
-    const targetLocation = getTargetLocation(player, inputDirection);
-    if (!isLocationTraversable(map2, targetLocation)) return;
+    const targetLocation = objectCanMove(player, inputDirection);
+    if (!targetLocation) return;
     const boxToMove = boxAtLocation(targetLocation, boxes);
     if (boxToMove) {
-      const boxTargetLocation = getTargetLocation(
+      const boxTargetLocation = objectCanMove(
         boxToMove.location,
         inputDirection,
       );
-      if (
-        !isLocationTraversable(map2, boxTargetLocation) ||
-        boxAtLocation(boxTargetLocation, boxes)
-      )
-        return;
+      if (!boxTargetLocation || boxAtLocation(boxTargetLocation, boxes)) return;
 
       setBoxes((boxes) =>
         boxes.map((box) => {
@@ -66,6 +63,16 @@ function Game() {
     }
     setPlayer(targetLocation);
     setIsAnimating(true);
+  }
+
+  function objectCanMove(
+    currentLocation: Location,
+    direction: Direction,
+  ): false | Location {
+    const targetLocation = getTargetLocation(currentLocation, direction);
+    return !isLocationTraversable(map2, targetLocation)
+      ? false
+      : targetLocation;
   }
 
   return (
