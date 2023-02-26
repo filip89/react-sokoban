@@ -8,14 +8,7 @@ import { keyInputs, KeyInput } from '../data/keyInputs';
  * pressed input becomes primary, if primary already existed it now becomes secondary
  * when primary input is unpressed then secondary, if exists, becomes primary
  * */
-/*
- * could have used another useEffect (for primaryInput?.direction change) instead of onChange callback,
- * but it is better to handle all the event related updates inside the event handler at once
- * than to chain the useEffects
- * */
-function useInputDirection(
-  onChange: (direction?: Direction) => unknown,
-): Direction | undefined {
+function useInputDirection(): Direction | undefined {
   const [primaryInput, setPrimaryInput] = useState<KeyInput>();
   const [secondaryInput, setSecondaryInput] = useState<KeyInput>();
 
@@ -31,7 +24,6 @@ function useInputDirection(
       }
       setPrimaryInput(newPrimaryInput);
       setSecondaryInput(newSecondaryInput);
-      onChange(newPrimaryInput?.direction);
     };
 
     const keyUpHandler = ({ code }: KeyboardEvent): void => {
@@ -49,7 +41,6 @@ function useInputDirection(
       }
       setPrimaryInput(newPrimaryInput);
       setSecondaryInput(newSecondaryInput);
-      onChange(newPrimaryInput?.direction);
     };
 
     document.addEventListener('keydown', keyDownHandler);
@@ -58,7 +49,7 @@ function useInputDirection(
       document.removeEventListener('keydown', keyDownHandler);
       document.removeEventListener('keyup', keyUpHandler);
     };
-  }, [primaryInput, secondaryInput, onChange]);
+  }, [primaryInput, secondaryInput]);
 
   return primaryInput?.direction;
 }

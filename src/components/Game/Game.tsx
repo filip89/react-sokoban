@@ -2,9 +2,8 @@ import styles from './Game.module.scss';
 import Map from '../Map/Map';
 import { map2 } from '../../maps/map2';
 import Player from '../Player/Player';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import useInputDirection from '../../hooks/useInputDirection';
-import { Direction } from '../../types/Direction';
 import { extractLocationsFromMap } from '../../utils/extractLocationsFromMap';
 import Box from '../Box/Box';
 import { boxAtLocation } from '../../utils/boxAtLocation';
@@ -21,7 +20,7 @@ function Game() {
   const [player, setPlayer] = useState(initialPlayer);
   const [boxes, setBoxes] = useState(initialBoxes);
   const [isAnimating, setIsAnimating] = useState(false);
-  const inputDirection = useInputDirection(handleInputChange);
+  const inputDirection = useInputDirection();
 
   const isSolved = useMemo(() => {
     return boxes.every((box) =>
@@ -31,21 +30,17 @@ function Game() {
     );
   }, [destinations, boxes]);
 
-  function handleInputChange(direction?: Direction) {
-    if (isAnimating || !direction || isSolved) return;
-    attemptMovement(direction);
-  }
+  useEffect(() => {
+    attemptMovement();
+  });
 
   function handleMovementEnd() {
     setIsAnimating(false);
-    if (isSolved) {
-      alert('Solved');
-      return;
-    }
-    if (inputDirection) attemptMovement(inputDirection);
+    attemptMovement();
   }
 
-  function attemptMovement(inputDirection: Direction) {
+  function attemptMovement() {
+    if (!inputDirection || isSolved || isAnimating) return;
     const targetLocation = getMovementLocation(player, inputDirection);
     if (!isLocationTraversable(map2, targetLocation)) return;
     const boxToMove = boxAtLocation(targetLocation, boxes);
