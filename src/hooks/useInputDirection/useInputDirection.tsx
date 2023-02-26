@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Direction } from '../types/Direction';
-import { keyInputs, KeyInput } from '../data/keyInputs';
+import { Direction } from '../../types/Direction';
+import { KeyInput } from '../../data/keyInputs';
+import {
+  getInputsOnKeyDown,
+  getInputsOnKeyUp,
+  KeyChangeInputsProducer,
+} from './inputDirectionUtils';
 
 /*
  * memorizes two inputs - primary and secondary
@@ -13,34 +18,25 @@ function useInputDirection(): Direction | undefined {
   const [secondaryInput, setSecondaryInput] = useState<KeyInput>();
 
   useEffect(() => {
-    const keyDownHandler = ({ code }: KeyboardEvent): void => {
-      if (primaryInput?.code === code || secondaryInput?.code === code) return;
-      const keyInput = keyInputs.find((keyInput) => keyInput.code === code);
-      if (!keyInput) return;
-      const newPrimaryInput = keyInput;
-      let newSecondaryInput = secondaryInput;
-      if (primaryInput) {
-        newSecondaryInput = primaryInput;
-      }
+    const keyChangeHandler = (
+      code: KeyboardEvent['code'],
+      strategy: KeyChangeInputsProducer,
+    ) => {
+      const [newPrimaryInput, newSecondaryInput] = strategy(
+        code,
+        primaryInput,
+        secondaryInput,
+      );
       setPrimaryInput(newPrimaryInput);
       setSecondaryInput(newSecondaryInput);
     };
 
+    const keyDownHandler = ({ code }: KeyboardEvent): void => {
+      keyChangeHandler(code, getInputsOnKeyDown);
+    };
+
     const keyUpHandler = ({ code }: KeyboardEvent): void => {
-      let newPrimaryInput = primaryInput;
-      let newSecondaryInput = secondaryInput;
-      if (primaryInput?.code === code) {
-        if (secondaryInput) {
-          newPrimaryInput = secondaryInput;
-          newSecondaryInput = undefined;
-        } else {
-          newPrimaryInput = undefined;
-        }
-      } else if (secondaryInput?.code === code) {
-        newSecondaryInput = undefined;
-      }
-      setPrimaryInput(newPrimaryInput);
-      setSecondaryInput(newSecondaryInput);
+      keyChangeHandler(code, getInputsOnKeyUp);
     };
 
     document.addEventListener('keydown', keyDownHandler);

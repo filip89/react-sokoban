@@ -1,7 +1,7 @@
 import { Location } from '../types/Location';
 import { Direction } from '../types/Direction';
 
-export function getMovementLocation(
+export function getTargetLocation(
   currentLocation: Location,
   direction: Direction,
 ): Location {

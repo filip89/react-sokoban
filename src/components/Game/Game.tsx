@@ -3,11 +3,11 @@ import Map from '../Map/Map';
 import { map2 } from '../../maps/map2';
 import Player from '../Player/Player';
 import { useEffect, useMemo, useState } from 'react';
-import useInputDirection from '../../hooks/useInputDirection';
+import useInputDirection from '../../hooks/useInputDirection/useInputDirection';
 import { extractLocationsFromMap } from '../../utils/extractLocationsFromMap';
 import Box from '../Box/Box';
 import { boxAtLocation } from '../../utils/boxAtLocation';
-import { getMovementLocation } from '../../utils/getMovementLocation';
+import { getTargetLocation } from '../../utils/getTargetLocation';
 import { isLocationTraversable } from '../../utils/isLocationTraversable';
 import { isSameLocations } from '../../utils/isSameLocations';
 
@@ -41,11 +41,11 @@ function Game() {
 
   function attemptMovement() {
     if (!inputDirection || isSolved || isAnimating) return;
-    const targetLocation = getMovementLocation(player, inputDirection);
+    const targetLocation = getTargetLocation(player, inputDirection);
     if (!isLocationTraversable(map2, targetLocation)) return;
     const boxToMove = boxAtLocation(targetLocation, boxes);
     if (boxToMove) {
-      const boxTargetLocation = getMovementLocation(
+      const boxTargetLocation = getTargetLocation(
         boxToMove.location,
         inputDirection,
       );
