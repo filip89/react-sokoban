@@ -10,16 +10,26 @@ import Box from '../Box/Box';
 import { boxAtLocation } from '../../utils/boxAtLocation';
 import { getMovementLocation } from '../../utils/getMovementLocation';
 import { isLocationTraversable } from '../../utils/isLocationTraversable';
+import { isSameLocations } from '../../utils/isSameLocations';
 
 function Game() {
-  const initialLocations = useMemo(() => extractLocationsFromMap(map2), []);
-  const [playerLocation, setPlayerLocation] = useState(initialLocations.player);
-  const [boxes, setBoxes] = useState(initialLocations.boxes);
-  const inputDirection = useInputDirection(handleInputChange);
+  const {
+    player: initialPlayer,
+    boxes: initialBoxes,
+    destinations,
+  } = useMemo(() => extractLocationsFromMap(map2), []);
+  const [player, setPlayer] = useState(initialPlayer);
+  const [boxes, setBoxes] = useState(initialBoxes);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [displaySolved, setDisplaySolved] = useState(false);
+  const inputDirection = useInputDirection(handleInputChange);
 
-  const isSolved = useMemo(() => false, [boxes]);
+  const isSolved = useMemo(() => {
+    return boxes.every((box) =>
+      destinations.find((destination) =>
+        isSameLocations(destination, box.location),
+      ),
+    );
+  }, [destinations, boxes]);
 
   function handleInputChange(direction?: Direction) {
     if (isAnimating || !direction || isSolved) return;
@@ -28,12 +38,15 @@ function Game() {
 
   function handleMovementEnd() {
     setIsAnimating(false);
-    if (isSolved) return;
+    if (isSolved) {
+      alert('Solved');
+      return;
+    }
     if (inputDirection) attemptMovement(inputDirection);
   }
 
   function attemptMovement(inputDirection: Direction) {
-    const targetLocation = getMovementLocation(playerLocation, inputDirection);
+    const targetLocation = getMovementLocation(player, inputDirection);
     if (!isLocationTraversable(map2, targetLocation)) return;
     const boxToMove = boxAtLocation(targetLocation, boxes);
     if (boxToMove) {
@@ -56,14 +69,14 @@ function Game() {
         }),
       );
     }
-    setPlayerLocation(targetLocation);
+    setPlayer(targetLocation);
     setIsAnimating(true);
   }
 
   return (
     <div className={styles.container}>
       <Map scheme={map2} />
-      <Player location={playerLocation} onMovementEnd={handleMovementEnd} />
+      <Player location={player} onMovementEnd={handleMovementEnd} />
       {boxes.map((box) => (
         <Box key={box.id} location={box.location} />
       ))}
