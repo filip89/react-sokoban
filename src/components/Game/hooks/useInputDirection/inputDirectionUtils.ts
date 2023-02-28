@@ -1,4 +1,4 @@
-import { KeyInput, keyInputs } from '../../data/keyInputs';
+import { KeyInput, keyInputs } from '../../../../data/keyInputs';
 
 type Inputs = [KeyInput | undefined, KeyInput | undefined];
 

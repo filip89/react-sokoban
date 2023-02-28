@@ -1,6 +1,6 @@
 import { Box } from '../../../types/Box';
 import { Location } from '../../../types/Location';
-import { isSameLocations } from './isSameLocations';
+import { isSameLocation } from './isSameLocation';
 
 export function checkIfBoxesDelivered(
   boxes: Box[],
@@ -8,7 +8,7 @@ export function checkIfBoxesDelivered(
 ): boolean {
   return boxes.every((box) =>
     destinations.find((destination) =>
-      isSameLocations(destination, box.location),
+      isSameLocation(destination, box.location),
     ),
   );
 }

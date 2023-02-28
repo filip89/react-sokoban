@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Direction } from '../../types/Direction';
-import { KeyInput } from '../../data/keyInputs';
+import { Direction } from '../../../../types/Direction';
+import { KeyInput } from '../../../../data/keyInputs';
 import {
   getInputsOnKeyDown,
   getInputsOnKeyUp,
