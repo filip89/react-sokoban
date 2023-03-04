@@ -1,0 +1,23 @@
+.container {
+  background-color: black;
+  display: inline-block;
+  padding: 20px;
+}
+
+.items {
+  list-style-type: none;
+  display: flex;
+  gap: 30px;
+  flex-direction: column;
+}
+
+.item {
+  cursor: pointer;
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+
+  &:hover {
+    filter: brightness(75%);
+  }
+}

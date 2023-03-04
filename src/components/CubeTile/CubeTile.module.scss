@@ -1,0 +1,16 @@
+.top {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: currentcolor;
+  top: -75%;
+}
+
+.side {
+  position: absolute;
+  height: 75%;
+  width: 100%;
+  background-color: currentcolor;
+  filter: brightness(80%);
+  top: 25%;
+}

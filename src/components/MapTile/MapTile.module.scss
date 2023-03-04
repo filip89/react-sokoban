@@ -1,7 +1,7 @@
 $blockSize: 40px;
 
 .container {
-  display: inline-block;
+  position: relative;
   width: $blockSize;
   height: $blockSize;
 }

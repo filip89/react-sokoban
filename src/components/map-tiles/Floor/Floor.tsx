@@ -1,11 +1,11 @@
 import styles from './Floor.module.scss';
-import MapObject from '../../MapObject/MapObject';
+import MapTile from '../../MapTile/MapTile';
 
 const Floor = () => {
   return (
-    <MapObject>
+    <MapTile>
       <div className={styles.floor} />
-    </MapObject>
+    </MapTile>
   );
 };
 

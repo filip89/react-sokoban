@@ -1,11 +1,11 @@
 import styles from './Destination.module.scss';
-import MapObject from '../../MapObject/MapObject';
+import MapTile from '../../MapTile/MapTile';
 
 const Destination = () => {
   return (
-    <MapObject>
+    <MapTile>
       <div className={styles.destination} />
-    </MapObject>
+    </MapTile>
   );
 };
 

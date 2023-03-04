@@ -1,14 +1,15 @@
 import styles from './Game.module.scss';
 import Map from '../Map/Map';
-import Player from '../map-objects/Player/Player';
+import Player from '../map-tiles/Player/Player';
 import { useEffect, useMemo, useState } from 'react';
 import useInputDirection from './hooks/useInputDirection/useInputDirection';
 import { extractLocationsFromMap } from './utils/extractLocationsFromMap';
-import Box from '../map-objects/Box/Box';
+import Box from '../map-tiles/Box/Box';
 import { isBoxAtLocation } from './utils/isBoxAtLocation';
 import { checkIfBoxesDelivered } from './utils/checkIfBoxesDelivered';
 import { MapScheme } from '../../types/MapScheme';
 import { getMovementLocation } from './utils/getMovementLocation';
+import Movable from '../Movable/Movable';
 
 type Props = {
   map: MapScheme;
@@ -57,7 +58,7 @@ function Game({ map }: Props) {
         boxes.map((item) =>
           item.id === box.id
             ? { id: box.id, location: boxMovementLocation }
-            : box,
+            : item,
         ),
       );
     }
@@ -68,9 +69,13 @@ function Game({ map }: Props) {
   return (
     <div className={styles.container}>
       <Map scheme={map} />
-      <Player location={player} onMovementEnd={handleMovementEnd} />
+      <Movable location={player} onMovementEnd={handleMovementEnd}>
+        <Player zIndex={player.y} />
+      </Movable>
       {boxes.map((box) => (
-        <Box key={box.id} location={box.location} />
+        <Movable key={box.id} location={box.location}>
+          <Box zIndex={box.location.y} />
+        </Movable>
       ))}
     </div>
   );
