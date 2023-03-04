@@ -1,10 +1,10 @@
 import styles from './Game.module.scss';
 import Map from '../Map/Map';
-import Player from '../Player/Player';
+import Player from '../map-objects/Player/Player';
 import { useEffect, useMemo, useState } from 'react';
 import useInputDirection from './hooks/useInputDirection/useInputDirection';
 import { extractLocationsFromMap } from './utils/extractLocationsFromMap';
-import Box from '../Box/Box';
+import Box from '../map-objects/Box/Box';
 import { isBoxAtLocation } from './utils/isBoxAtLocation';
 import { checkIfBoxesDelivered } from './utils/checkIfBoxesDelivered';
 import { MapScheme } from '../../types/MapScheme';

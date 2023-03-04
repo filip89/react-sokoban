@@ -1,5 +1,4 @@
-import styles from './MovableObject.module.scss';
-import MapObject from '../MapObject/MapObject';
+import styles from './Movable.module.scss';
 import { Location } from '../../types/Location';
 import { PropsWithChildren } from 'react';
 
@@ -8,11 +7,7 @@ export type MovableObjectProps = {
   onMovementEnd?: () => unknown;
 } & PropsWithChildren;
 
-const MovableObject = ({
-  location,
-  onMovementEnd,
-  children,
-}: MovableObjectProps) => {
+const Movable = ({ location, onMovementEnd, children }: MovableObjectProps) => {
   const cssDistance = getLocationCssDistance(location);
   return (
     <div
@@ -20,7 +15,7 @@ const MovableObject = ({
       style={{ top: cssDistance.y, left: cssDistance.x }}
       onTransitionEnd={onMovementEnd}
     >
-      <MapObject>{children}</MapObject>
+      {children}
     </div>
   );
 };
@@ -30,4 +25,4 @@ function getLocationCssDistance(location: Location) {
   return { x: location.x * stepSize, y: location.y * stepSize };
 }
 
-export default MovableObject;
+export default Movable;
