@@ -1,5 +1,4 @@
 import styles from './Game.module.scss';
-import Map from '../Map/Map';
 import Player from '../map-tiles/Player/Player';
 import { useEffect, useMemo, useState } from 'react';
 import useInputDirection from './hooks/useInputDirection/useInputDirection';
@@ -10,6 +9,7 @@ import { checkIfBoxesDelivered } from './utils/checkIfBoxesDelivered';
 import { MapScheme } from '../../types/MapScheme';
 import { getMovementLocation } from './utils/getMovementLocation';
 import Movable from '../Movable/Movable';
+import PlayMap from '../PlayMap/PlayMap';
 
 type Props = {
   map: MapScheme;
@@ -68,7 +68,7 @@ function Game({ map }: Props) {
 
   return (
     <div className={styles.container}>
-      <Map scheme={map} />
+      <PlayMap scheme={map} />
       <Movable location={player} onMovementEnd={handleMovementEnd}>
         <Player zIndex={player.y} />
       </Movable>

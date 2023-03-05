@@ -1,27 +1,44 @@
 import styles from './Map.module.scss';
 import { MapScheme } from '../../types/MapScheme';
-import MapTile from '../MapTile/MapTile';
 import { TileSign } from '../../types/TileSign';
-import { signs } from '../../data/signs';
-import Floor from '../map-tiles/Floor/Floor';
-import Destination from '../map-tiles/Destination/Destination';
-import Wall from '../map-tiles/Wall/Wall';
-import React from 'react';
+import React, { ReactNode } from 'react';
+import { Location } from '../../types/Location';
 
-type Props = {
+export type MapProps = {
   scheme: MapScheme;
+  children: (sign: TileSign, location: Location) => ReactNode;
+  onMouseOverTile?: (location: Location) => unknown;
+  onMouseDown?: (location: Location) => unknown;
+  onMouseUp?: (location: Location) => unknown;
 };
 
-const Map = ({ scheme }: Props) => {
+const Map = ({
+  scheme,
+  children: tileRender,
+  onMouseOverTile,
+  onMouseDown,
+  onMouseUp,
+}: MapProps) => {
   return (
     <div className={styles.map}>
       {scheme.map((row, rowIndex) => (
         <div key={rowIndex} className={styles.row}>
-          {row.map((tile, columnIndex) => (
-            <React.Fragment key={columnIndex}>
-              {getTileComponentBySign(tile, rowIndex)}
-            </React.Fragment>
-          ))}
+          {row.map((tile, columnIndex) => {
+            const location: Location = { x: columnIndex, y: rowIndex };
+            return (
+              <div
+                draggable={false}
+                key={`${columnIndex}-${rowIndex}`}
+                onMouseOver={() => onMouseOverTile?.(location)}
+                onMouseDown={() => onMouseDown?.(location)}
+                onMouseUp={() => onMouseUp?.(location)}
+              >
+                <React.Fragment key={columnIndex}>
+                  {tileRender(tile, location)}
+                </React.Fragment>
+              </div>
+            );
+          })}
         </div>
       ))}
     </div>
@@ -29,10 +46,3 @@ const Map = ({ scheme }: Props) => {
 };
 
 export default Map;
-
-function getTileComponentBySign(sign: TileSign, zIndex: number) {
-  if (sign === signs.wall) return <Wall zIndex={zIndex} />;
-  if (sign === signs.destination) return <Destination />;
-  if (sign === signs.empty) return <MapTile />;
-  return <Floor />;
-}
