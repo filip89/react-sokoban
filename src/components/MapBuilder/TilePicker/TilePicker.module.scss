@@ -16,11 +16,6 @@
   background-color: white;
   padding: 10px;
   border-radius: 10px;
-  filter: brightness(75%);
-
-  &:hover {
-    filter: none;
-  }
 
   &--selected {
     filter: none;

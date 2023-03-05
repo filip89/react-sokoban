@@ -6,6 +6,7 @@ import Player from '../../map-tiles/Player/Player';
 import Box from '../../map-tiles/Box/Box';
 import { TileSign } from '../../../types/TileSign';
 import classNames from 'classnames';
+import MapTile from '../../MapTile/MapTile';
 
 type Props = {
   selectedTile: TileSign;
@@ -29,6 +30,13 @@ const TilePicker = ({ selectedTile, onTileSelect }: Props) => {
           title="Floor"
         >
           <Floor />
+        </li>
+        <li
+          className={getItemClassName('0')}
+          onClick={() => onTileSelect('0')}
+          title="Empty"
+        >
+          <MapTile />
         </li>
         <li
           className={getItemClassName('#')}
