@@ -35,14 +35,12 @@ const MapBuilder = () => {
       <aside>
         <TilePicker selectedTile={pickedTile} onTileSelect={setPickedTile} />
       </aside>
-      <main>
-        {
-          <BuilderMap
-            scheme={mapScheme}
-            buildTile={pickedTile}
-            onTilesPlacement={handleTilesPlacement}
-          />
-        }
+      <main className={styles.map}>
+        <BuilderMap
+          scheme={mapScheme}
+          buildTile={pickedTile}
+          onTilesPlacement={handleTilesPlacement}
+        />
       </main>
     </div>
   );
