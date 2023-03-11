@@ -1,12 +1,12 @@
 import styles from './TilePicker.module.scss';
-import Floor from '../../map-tiles/Floor/Floor';
-import Destination from '../../map-tiles/Destination/Destination';
-import Wall from '../../map-tiles/Wall/Wall';
-import Player from '../../map-tiles/Player/Player';
-import Box from '../../map-tiles/Box/Box';
-import { TileSign } from '../../../types/TileSign';
+import Floor from '../../../map-tiles/Floor/Floor';
+import Destination from '../../../map-tiles/Destination/Destination';
+import Wall from '../../../map-tiles/Wall/Wall';
+import Player from '../../../map-tiles/Player/Player';
+import Box from '../../../map-tiles/Box/Box';
+import { TileSign } from '../../../../types/TileSign';
 import classNames from 'classnames';
-import MapTile from '../../MapTile/MapTile';
+import MapTile from '../../../MapTile/MapTile';
 
 type Props = {
   selectedTile: TileSign;

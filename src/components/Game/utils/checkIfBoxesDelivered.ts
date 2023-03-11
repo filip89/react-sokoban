@@ -1,6 +1,6 @@
 import { Box } from '../../../types/Box';
 import { Location } from '../../../types/Location';
-import { isSameLocation } from './isSameLocation';
+import { isSameLocation } from '../../../utils/isSameLocation';
 
 export function checkIfBoxesDelivered(
   boxes: Box[],

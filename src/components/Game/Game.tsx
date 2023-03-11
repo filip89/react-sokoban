@@ -9,7 +9,7 @@ import { checkIfBoxesDelivered } from './utils/checkIfBoxesDelivered';
 import { MapScheme } from '../../types/MapScheme';
 import { getMovementLocation } from './utils/getMovementLocation';
 import Movable from '../Movable/Movable';
-import PlayMap from '../PlayMap/PlayMap';
+import GameMap from './components/GameMap/GameMap';
 
 type Props = {
   map: MapScheme;
@@ -68,7 +68,7 @@ function Game({ map }: Props) {
 
   return (
     <div className={styles.container}>
-      <PlayMap scheme={map} />
+      <GameMap scheme={map} />
       <Movable location={player} onMovementEnd={handleMovementEnd}>
         <Player zIndex={player.y} />
       </Movable>
