@@ -19,11 +19,11 @@ const MapBuilder = () => {
       produce((scheme) => {
         scheme.forEach((row, rowIndex) => {
           if (!isIndexInRange(rowIndex, minimumPoint.y, maximumPoint.y)) return;
-          row.forEach((tile, tileIndex) => {
-            if (!isIndexInRange(tileIndex, minimumPoint.x, maximumPoint.x))
-              return;
-            scheme[rowIndex][tileIndex] = pickedTile;
-          });
+          row.forEach(
+            (tile, tileIndex) =>
+              isIndexInRange(tileIndex, minimumPoint.x, maximumPoint.x) &&
+              (scheme[rowIndex][tileIndex] = pickedTile),
+          );
         });
         return scheme;
       }),
