@@ -31,6 +31,10 @@ const BuilderMap = ({ scheme, buildTile, onTilesPlacement }: Props) => {
     setAnchorPoint(undefined);
   }
 
+  function handleRightMouseDown() {
+    setAnchorPoint(undefined);
+  }
+
   function renderTile(tile: TileSign, location: Location) {
     let relevantSign = tile;
     if (
@@ -46,14 +50,17 @@ const BuilderMap = ({ scheme, buildTile, onTilesPlacement }: Props) => {
   }
 
   return (
-    <Map
-      scheme={scheme}
-      onMouseOverTile={(location) => setHoveredLocation(location)}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-    >
-      {renderTile}
-    </Map>
+    <div onContextMenu={(ev) => ev.preventDefault()}>
+      <Map
+        scheme={scheme}
+        onMouseOverTile={(location) => setHoveredLocation(location)}
+        onMouseDown={handleMouseDown}
+        onRightMouseDown={handleRightMouseDown}
+        onMouseUp={handleMouseUp}
+      >
+        {renderTile}
+      </Map>
+    </div>
   );
 };
 

@@ -9,6 +9,7 @@ export type MapProps = {
   children: (sign: TileSign, location: Location) => ReactNode;
   onMouseOverTile?: (location: Location) => unknown;
   onMouseDown?: (location: Location) => unknown;
+  onRightMouseDown?: () => unknown;
   onMouseUp?: (location: Location) => unknown;
 };
 
@@ -17,8 +18,16 @@ const Map = ({
   children: tileRender,
   onMouseOverTile,
   onMouseDown,
+  onRightMouseDown,
   onMouseUp,
 }: MapProps) => {
+  function handleMouseDown(
+    ev: React.MouseEvent<HTMLDivElement>,
+    location: Location,
+  ) {
+    ev.button === 2 ? onRightMouseDown?.() : onMouseDown?.(location);
+  }
+
   return (
     <div className={styles.map}>
       {scheme.map((row, rowIndex) => (
@@ -30,7 +39,7 @@ const Map = ({
                 draggable={false}
                 key={`${columnIndex}-${rowIndex}`}
                 onMouseOver={() => onMouseOverTile?.(location)}
-                onMouseDown={() => onMouseDown?.(location)}
+                onMouseDown={(ev) => handleMouseDown(ev, location)}
                 onMouseUp={() => onMouseUp?.(location)}
               >
                 <React.Fragment key={columnIndex}>
