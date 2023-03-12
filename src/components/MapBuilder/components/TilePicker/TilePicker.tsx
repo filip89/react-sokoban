@@ -11,9 +11,11 @@ import MapTile from '../../../MapTile/MapTile';
 type Props = {
   selectedTile: TileSign;
   onTileSelect: (sign: TileSign) => unknown;
+  onReset: () => unknown;
+  onSave: () => unknown;
 };
 
-const TilePicker = ({ selectedTile, onTileSelect }: Props) => {
+const TilePicker = ({ selectedTile, onTileSelect, onReset, onSave }: Props) => {
   function getItemClassName(tile: TileSign) {
     return classNames(
       styles.item,
@@ -23,6 +25,12 @@ const TilePicker = ({ selectedTile, onTileSelect }: Props) => {
 
   return (
     <div className={styles.container}>
+      <button type="button" onClick={onSave}>
+        Save
+      </button>
+      <button type="button" onClick={onReset}>
+        Reset
+      </button>
       <ul className={styles.items}>
         <li
           className={getItemClassName('_')}

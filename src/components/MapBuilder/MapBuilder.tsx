@@ -2,16 +2,21 @@ import styles from './MapBuilder.module.scss';
 import TilePicker from './components/TilePicker/TilePicker';
 import { useState } from 'react';
 import { TileSign } from '../../types/TileSign';
-import { emptyTemplate } from '../../maps/emptyTemplate';
 import BuilderMap from './components/BuilderMap/BuilderMap';
 import { Location } from '../../types/Location';
 import produce from 'immer';
 import { getSquareExtremePoints } from './utils/getSquareExtremePoints';
 import { isIndexInRange } from './utils/isIndexInRange';
+import { MapScheme } from '../../types/MapScheme';
 
-const MapBuilder = () => {
+type Props = {
+  map: MapScheme;
+  onSave: (mapScheme: MapScheme) => unknown;
+};
+
+const MapBuilder = ({ map, onSave }: Props) => {
   const [pickedTile, setPickedTile] = useState<TileSign>('_');
-  const [mapScheme, setMapScheme] = useState(emptyTemplate);
+  const [mapScheme, setMapScheme] = useState(map);
 
   function handleTilesPlacement(pointA: Location, pointB: Location) {
     const [minimumPoint, maximumPoint] = getSquareExtremePoints(pointA, pointB);
@@ -30,10 +35,23 @@ const MapBuilder = () => {
     );
   }
 
+  function handleReset() {
+    setMapScheme(map);
+  }
+
+  function handleSave() {
+    onSave(mapScheme);
+  }
+
   return (
     <div className={styles.container}>
       <aside>
-        <TilePicker selectedTile={pickedTile} onTileSelect={setPickedTile} />
+        <TilePicker
+          selectedTile={pickedTile}
+          onTileSelect={setPickedTile}
+          onReset={handleReset}
+          onSave={handleSave}
+        />
       </aside>
       <main className={styles.map}>
         <BuilderMap
