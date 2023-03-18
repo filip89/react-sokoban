@@ -10,6 +10,7 @@ import { MapScheme } from '../../types/MapScheme';
 import { getMovementLocation } from './utils/getMovementLocation';
 import Movable from '../Movable/Movable';
 import GameMap from './components/GameMap/GameMap';
+import GameModeLayout from '../GameModeLayout/GameModeLayout';
 
 type Props = {
   map: MapScheme;
@@ -67,17 +68,21 @@ function Game({ map }: Props) {
   }
 
   return (
-    <div className={styles.container}>
-      <GameMap scheme={map} />
-      <Movable location={player} onMovementEnd={handleMovementEnd}>
-        <Player zIndex={player.y} />
-      </Movable>
-      {boxes.map((box) => (
-        <Movable key={box.id} location={box.location}>
-          <Box zIndex={box.location.y} />
-        </Movable>
-      ))}
-    </div>
+    <GameModeLayout
+      mapSection={
+        <div className={styles.container}>
+          <GameMap scheme={map} />
+          <Movable location={player} onMovementEnd={handleMovementEnd}>
+            <Player zIndex={player.y} />
+          </Movable>
+          {boxes.map((box) => (
+            <Movable key={box.id} location={box.location}>
+              <Box zIndex={box.location.y} />
+            </Movable>
+          ))}
+        </div>
+      }
+    />
   );
 }
 

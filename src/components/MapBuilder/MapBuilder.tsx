@@ -8,6 +8,7 @@ import produce from 'immer';
 import { getSquareExtremePoints } from './utils/getSquareExtremePoints';
 import { isIndexInRange } from './utils/isIndexInRange';
 import { MapScheme } from '../../types/MapScheme';
+import GameModeLayout from '../GameModeLayout/GameModeLayout';
 
 type Props = {
   map: MapScheme;
@@ -44,23 +45,23 @@ const MapBuilder = ({ map, onSave }: Props) => {
   }
 
   return (
-    <div className={styles.container}>
-      <aside>
+    <GameModeLayout
+      mapSection={
+        <BuilderMap
+          scheme={mapScheme}
+          buildTile={pickedTile}
+          onTilesPlacement={handleTilesPlacement}
+        />
+      }
+      footerSection={
         <TilePicker
           selectedTile={pickedTile}
           onTileSelect={setPickedTile}
           onReset={handleReset}
           onSave={handleSave}
         />
-      </aside>
-      <main className={styles.map}>
-        <BuilderMap
-          scheme={mapScheme}
-          buildTile={pickedTile}
-          onTilesPlacement={handleTilesPlacement}
-        />
-      </main>
-    </div>
+      }
+    />
   );
 };
 

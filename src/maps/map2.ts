@@ -1,7 +1,7 @@
 import { SavedMap } from '../types/SavedMap';
 
 export const map2: SavedMap = {
-  id: '1',
+  id: '2',
   scheme: [
     ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_'],
     ['_', '#', '_', '_', '_', '_', '_', '_', '_', '_'],

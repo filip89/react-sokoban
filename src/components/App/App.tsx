@@ -10,10 +10,16 @@ import { MapScheme } from '../../types/MapScheme';
 import produce from 'immer';
 import { v4 as uuidv4 } from 'uuid';
 import { SavedMap } from '../../types/SavedMap';
+import MapPicker from '../MapPicker/MapPicker';
+
+export type GameMode = 'edit' | 'play';
 
 const App = () => {
   const [maps, setMaps] = useState([map1, map2, map3]);
-  const [selectedMapId, setSelectedMapId] = useState(map1.id);
+  const [selectedMapId, setSelectedMapId] = useState<
+    SavedMap['id'] | undefined
+  >();
+  const [mode, setMode] = useState<GameMode>('edit');
 
   const currentMapScheme =
     useMemo(
@@ -22,25 +28,47 @@ const App = () => {
     )?.scheme || emptyTemplate;
 
   function handleMapSave(scheme: MapScheme) {
-    if (selectedMapId) {
-      setMaps(
-        produce((maps) => {
-          const relevantMap = maps.find((map) => map.id === selectedMapId);
-          relevantMap && (relevantMap.scheme = scheme);
-        }),
-      );
-    } else {
-      const newMap = createNewMap(scheme);
-      setMaps((maps) => maps.concat(newMap));
-      setSelectedMapId(newMap.id);
-    }
+    selectedMapId ? updateMap(scheme) : addMap(scheme);
+  }
+
+  function updateMap(scheme: MapScheme) {
+    setMaps(
+      produce((maps) => {
+        const relevantMap = maps.find((map) => map.id === selectedMapId);
+        relevantMap && (relevantMap.scheme = scheme);
+      }),
+    );
+  }
+
+  function addMap(scheme: MapScheme) {
+    const newMap = createNewMap(scheme);
+    setMaps((maps) => maps.concat(newMap));
+    setSelectedMapId(newMap.id);
+  }
+
+  function handleModeChange() {
+    setMode((mode) => (mode === 'play' ? 'edit' : 'play'));
   }
 
   return (
-    <>
-      <MapBuilder map={currentMapScheme} onSave={handleMapSave} />
-      {/*<Game map={map2} />*/}
-    </>
+    <div className={styles.container}>
+      <MapPicker
+        selectedMapId={selectedMapId}
+        maps={maps}
+        onMapSelect={(mapId) => setSelectedMapId(mapId)}
+        mode={mode}
+        onModeChange={handleModeChange}
+      />
+      {mode === 'edit' ? (
+        <MapBuilder
+          key={selectedMapId}
+          map={currentMapScheme}
+          onSave={handleMapSave}
+        />
+      ) : (
+        <Game key={selectedMapId} map={currentMapScheme} />
+      )}
+    </div>
   );
 };
 

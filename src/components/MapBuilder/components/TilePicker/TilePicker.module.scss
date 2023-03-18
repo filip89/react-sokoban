@@ -1,14 +1,14 @@
 .container {
   background-color: black;
-  display: inline-block;
   padding: 20px;
+  width: 100%;
+  overflow: auto;
 }
 
 .items {
   list-style-type: none;
   display: flex;
   gap: 30px;
-  flex-direction: column;
 }
 
 .item {
