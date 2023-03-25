@@ -1,18 +1,17 @@
 import styles from './App.module.scss';
 import MapBuilder from '../MapBuilder/MapBuilder';
 import Game from '../Game/Game';
-import { map2 } from '../../maps/map2';
 import React, { useMemo, useState } from 'react';
-import { map1 } from '../../maps/map1';
-import { map3 } from '../../maps/map3';
 import { emptyTemplate } from '../../maps/emptyTemplate';
 import { MapScheme } from '../../types/MapScheme';
 import produce from 'immer';
 import { v4 as uuidv4 } from 'uuid';
 import { SavedMap } from '../../types/SavedMap';
 import MapPicker from '../MapPicker/MapPicker';
+import { map1 } from '../../maps/map1';
+import { map2 } from '../../maps/map2';
 
-const initialMaps = [map1, map2, map3];
+const initialMaps = [map1, map2];
 
 export type GameMode = 'edit' | 'play';
 
@@ -22,12 +21,6 @@ const App = () => {
     SavedMap['id'] | undefined
   >(initialMaps[0].id);
   const [mode, setMode] = useState<GameMode>('play');
-
-  const currentMapScheme =
-    useMemo(
-      () => maps.find((map) => map.id === selectedMapId),
-      [maps, selectedMapId],
-    )?.scheme || emptyTemplate;
 
   function handleMapSave(scheme: MapScheme) {
     selectedMapId ? updateMap(scheme) : addMap(scheme);
@@ -52,6 +45,12 @@ const App = () => {
     setMode((mode) => (mode === 'play' ? 'edit' : 'play'));
   }
 
+  const currentMapScheme =
+    useMemo(
+      () => maps.find((map) => map.id === selectedMapId),
+      [maps, selectedMapId],
+    )?.scheme || emptyTemplate;
+
   return (
     <div className={styles.container}>
       <MapPicker
@@ -68,7 +67,7 @@ const App = () => {
           onSave={handleMapSave}
         />
       ) : (
-        <Game key={selectedMapId} map={currentMapScheme} />
+        selectedMapId && <Game key={selectedMapId} map={currentMapScheme} />
       )}
     </div>
   );
