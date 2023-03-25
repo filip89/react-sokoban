@@ -1,25 +1,21 @@
 import { MapScheme } from '../../../types/MapScheme';
 import { signs } from '../../../data/signs';
-import { TileSign } from '../../../types/TileSign';
+import { forEachMapTile } from '../../../utils/forEachMapTile';
 
 export function validateMap(map: MapScheme): boolean {
-  const playerCount = countMapSign(map, signs.player);
+  const counts = getSignsCounts(map);
 
-  if (playerCount !== 1) {
+  if (counts.players !== 1) {
     mapErrorAlert('Map must have exactly one player');
     return false;
   }
 
-  const destinationCount = countMapSign(map, signs.destination);
-
-  if (!destinationCount) {
+  if (!counts.destinations) {
     mapErrorAlert('Destinations missing');
     return false;
   }
 
-  const boxCount = countMapSign(map, signs.box);
-
-  if (destinationCount !== boxCount) {
+  if (counts.destinations !== counts.boxes) {
     mapErrorAlert('Destinations and boxes mismatch');
     return false;
   }
@@ -29,9 +25,20 @@ export function validateMap(map: MapScheme): boolean {
 
 const mapErrorAlert = (reason: string) => alert(`Invalid map: ${reason};`);
 
-function countMapSign(map: MapScheme, sign: TileSign) {
-  return map.reduce<number>((fullCount, row) => {
-    const rowDestinationCount = row.filter((item) => item === sign).length;
-    return fullCount + rowDestinationCount;
-  }, 0);
+function getSignsCounts(map: MapScheme) {
+  const counts = {
+    players: 0,
+    destinations: 0,
+    boxes: 0,
+  };
+  forEachMapTile(map, (location, sign) => {
+    if (sign === signs.player) {
+      counts.players++;
+    } else if (sign === signs.destination) {
+      counts.destinations++;
+    } else if (sign === signs.box) {
+      counts.boxes++;
+    }
+  });
+  return counts;
 }
