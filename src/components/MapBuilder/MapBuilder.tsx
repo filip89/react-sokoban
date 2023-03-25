@@ -1,4 +1,3 @@
-import styles from './MapBuilder.module.scss';
 import TilePicker from './components/TilePicker/TilePicker';
 import { useState } from 'react';
 import { TileSign } from '../../types/TileSign';
@@ -9,6 +8,7 @@ import { getSquareExtremePoints } from './utils/getSquareExtremePoints';
 import { isIndexInRange } from './utils/isIndexInRange';
 import { MapScheme } from '../../types/MapScheme';
 import GameModeLayout from '../GameModeLayout/GameModeLayout';
+import { validateMap } from './utils/validateMap';
 
 type Props = {
   map: MapScheme;
@@ -41,7 +41,9 @@ const MapBuilder = ({ map, onSave }: Props) => {
   }
 
   function handleSave() {
-    onSave(mapScheme);
+    if (validateMap(mapScheme)) {
+      onSave(mapScheme);
+    }
   }
 
   return (
