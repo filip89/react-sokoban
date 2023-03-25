@@ -9,6 +9,7 @@ import classNames from 'classnames';
 import MapTile from '../../../MapTile/MapTile';
 import { ReactElement } from 'react';
 import { signs } from '../../../../data/signs';
+import Button from '../../../Button/Button';
 
 const tileItems: { sign: TileSign; label: string; component: ReactElement }[] =
   [
@@ -42,12 +43,8 @@ const TilePicker = ({ selectedTile, onTileSelect, onReset, onSave }: Props) => {
   return (
     <div className={styles.container}>
       <div className={styles.actions}>
-        <button type="button" onClick={onSave}>
-          Save
-        </button>
-        <button type="button" onClick={onReset}>
-          Reset
-        </button>
+        <Button onClick={onSave}>Save</Button>
+        <Button onClick={onReset}>Reset</Button>
       </div>
       <ul className={styles.items}>
         {tileItems.map((item) => (

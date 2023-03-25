@@ -1,6 +1,7 @@
 import styles from './MapPicker.module.scss';
 import { SavedMap } from '../../types/SavedMap';
 import { GameMode } from '../App/App';
+import Button from '../Button/Button';
 
 type Props = {
   maps: SavedMap[];
@@ -25,9 +26,11 @@ const MapPicker = ({
 
   return (
     <header className={styles.container}>
-      <button className={styles.modeButton} onClick={onModeChange}>
-        {mode === 'edit' ? 'Play' : 'Edit'}
-      </button>
+      <div className={styles.modeButton}>
+        <Button onClick={onModeChange}>
+          {mode === 'edit' ? 'Play' : 'Edit'}
+        </Button>
+      </div>
       <ul className={styles.maps}>
         {maps.map((map) => (
           <li key={map.id} className={getMapClassName(map.id)}>

@@ -1,12 +1,16 @@
+@use 'src/styles/menu';
+
 .container {
   flex-shrink: 0;
+  padding-inline: 30px;
   display: flex;
   height: 80px;
   gap: 20px;
+  background-color: menu.$menuColor;
 }
 
 .modeButton {
-  width: 80px;
+  align-self: center;
 }
 
 .maps {
