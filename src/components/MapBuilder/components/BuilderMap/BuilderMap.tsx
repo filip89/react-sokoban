@@ -22,10 +22,12 @@ const BuilderMap = ({ scheme, buildTile, onTilesPlacement }: Props) => {
   const [anchorPoint, setAnchorPoint] = useState<Location>();
 
   function handleMouseDown(location: Location) {
+    if (buildTile === signs.player) return;
     setAnchorPoint(location);
   }
 
   function handleMouseUp(location: Location) {
+    if (buildTile === signs.player) return onTilesPlacement(location, location);
     if (!anchorPoint) return;
     onTilesPlacement(anchorPoint, location);
     setAnchorPoint(undefined);
@@ -49,6 +51,11 @@ const BuilderMap = ({ scheme, buildTile, onTilesPlacement }: Props) => {
     return getTileComponentBySign(relevantSign, location);
   }
 
+  function handleMapMouseLeave() {
+    setHoveredLocation(undefined);
+    setAnchorPoint(undefined);
+  }
+
   return (
     <div onContextMenu={(ev) => ev.preventDefault()}>
       <Map
@@ -57,6 +64,7 @@ const BuilderMap = ({ scheme, buildTile, onTilesPlacement }: Props) => {
         onMouseDown={handleMouseDown}
         onRightMouseDown={handleRightMouseDown}
         onMouseUp={handleMouseUp}
+        onMapMouseLeave={handleMapMouseLeave}
       >
         {renderTile}
       </Map>

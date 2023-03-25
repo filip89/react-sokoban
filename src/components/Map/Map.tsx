@@ -11,6 +11,7 @@ export type MapProps = {
   onMouseDown?: (location: Location) => unknown;
   onRightMouseDown?: () => unknown;
   onMouseUp?: (location: Location) => unknown;
+  onMapMouseLeave?: () => unknown;
 };
 
 const Map = ({
@@ -20,6 +21,7 @@ const Map = ({
   onMouseDown,
   onRightMouseDown,
   onMouseUp,
+  onMapMouseLeave,
 }: MapProps) => {
   function handleMouseDown(
     ev: React.MouseEvent<HTMLDivElement>,
@@ -29,7 +31,7 @@ const Map = ({
   }
 
   return (
-    <div className={styles.map}>
+    <div className={styles.map} onMouseLeave={onMapMouseLeave}>
       {scheme.map((row, rowIndex) => (
         <div key={rowIndex} className={styles.row}>
           {row.map((tile, columnIndex) => {

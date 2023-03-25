@@ -3,21 +3,21 @@ import { signs } from '../../../data/signs';
 import { TileSign } from '../../../types/TileSign';
 
 export function validateMap(map: MapScheme): boolean {
-  const hasPlayer = !!map.find((row) => row.includes(signs.player));
+  const playerCount = countMapSign(map, signs.player);
 
-  if (!hasPlayer) {
-    mapErrorAlert('Player missing');
+  if (playerCount !== 1) {
+    mapErrorAlert('Map must have exactly one player');
     return false;
   }
 
-  const destinationCount = countMapSigns(map, signs.destination);
+  const destinationCount = countMapSign(map, signs.destination);
 
   if (!destinationCount) {
     mapErrorAlert('Destinations missing');
     return false;
   }
 
-  const boxCount = countMapSigns(map, signs.box);
+  const boxCount = countMapSign(map, signs.box);
 
   if (destinationCount !== boxCount) {
     mapErrorAlert('Destinations and boxes mismatch');
@@ -29,7 +29,7 @@ export function validateMap(map: MapScheme): boolean {
 
 const mapErrorAlert = (reason: string) => alert(`Invalid map: ${reason};`);
 
-function countMapSigns(map: MapScheme, sign: TileSign) {
+function countMapSign(map: MapScheme, sign: TileSign) {
   return map.reduce<number>((fullCount, row) => {
     const rowDestinationCount = row.filter((item) => item === sign).length;
     return fullCount + rowDestinationCount;
