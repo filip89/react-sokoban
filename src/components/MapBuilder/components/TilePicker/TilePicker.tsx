@@ -7,6 +7,22 @@ import Box from '../../../map-tiles/Box/Box';
 import { TileSign } from '../../../../types/TileSign';
 import classNames from 'classnames';
 import MapTile from '../../../MapTile/MapTile';
+import { ReactElement } from 'react';
+import { signs } from '../../../../data/signs';
+
+const tileItems: { sign: TileSign; label: string; component: ReactElement }[] =
+  [
+    { sign: signs.floor, label: 'Floor', component: <Floor /> },
+    { sign: signs.empty, label: 'Empty', component: <MapTile /> },
+    { sign: signs.player, label: 'Player', component: <Player /> },
+    { sign: signs.wall, label: 'Wall', component: <Wall /> },
+    { sign: signs.box, label: 'Box', component: <Box /> },
+    {
+      sign: signs.destination,
+      label: 'Destination',
+      component: <Destination />,
+    },
+  ];
 
 type Props = {
   selectedTile: TileSign;
@@ -25,55 +41,25 @@ const TilePicker = ({ selectedTile, onTileSelect, onReset, onSave }: Props) => {
 
   return (
     <div className={styles.container}>
-      <button type="button" onClick={onSave}>
-        Save
-      </button>
-      <button type="button" onClick={onReset}>
-        Reset
-      </button>
+      <div className={styles.actions}>
+        <button type="button" onClick={onSave}>
+          Save
+        </button>
+        <button type="button" onClick={onReset}>
+          Reset
+        </button>
+      </div>
       <ul className={styles.items}>
-        <li
-          className={getItemClassName('_')}
-          onClick={() => onTileSelect('_')}
-          title="Floor"
-        >
-          <Floor />
-        </li>
-        <li
-          className={getItemClassName('0')}
-          onClick={() => onTileSelect('0')}
-          title="Empty"
-        >
-          <MapTile />
-        </li>
-        <li
-          className={getItemClassName('#')}
-          onClick={() => onTileSelect('#')}
-          title="Wall"
-        >
-          <Wall />
-        </li>
-        <li
-          className={getItemClassName('*')}
-          onClick={() => onTileSelect('*')}
-          title="Destination"
-        >
-          <Destination />
-        </li>
-        <li
-          className={getItemClassName('B')}
-          onClick={() => onTileSelect('B')}
-          title="Box"
-        >
-          <Box />
-        </li>
-        <li
-          className={getItemClassName('@')}
-          onClick={() => onTileSelect('@')}
-          title="Player"
-        >
-          <Player />
-        </li>
+        {tileItems.map((item) => (
+          <li
+            key={item.sign}
+            className={getItemClassName(item.sign)}
+            onClick={() => onTileSelect(item.sign)}
+            title={item.label}
+          >
+            {item.component}
+          </li>
+        ))}
       </ul>
     </div>
   );

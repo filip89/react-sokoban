@@ -1,14 +1,21 @@
 .container {
   background-color: black;
-  padding: 20px;
+  padding: 30px;
   width: 100%;
   overflow: auto;
+  display: flex;
+  gap: 30px;
+}
+
+.actions {
+  display: flex;
+  gap: 5px;
 }
 
 .items {
   list-style-type: none;
   display: flex;
-  gap: 30px;
+  gap: 15px;
 }
 
 .item {
