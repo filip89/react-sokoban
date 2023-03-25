@@ -29,13 +29,6 @@ const MapPicker = ({
         {mode === 'edit' ? 'Play' : 'Edit'}
       </button>
       <ul className={styles.maps}>
-        {mode === 'edit' && (
-          <li className={getMapClassName()}>
-            <button className={styles.mapButton} onClick={() => onMapSelect()}>
-              New
-            </button>
-          </li>
-        )}
         {maps.map((map) => (
           <li key={map.id} className={getMapClassName(map.id)}>
             <button
@@ -46,6 +39,13 @@ const MapPicker = ({
             </button>
           </li>
         ))}
+        {mode === 'edit' && (
+          <li className={getMapClassName()}>
+            <button className={styles.mapButton} onClick={() => onMapSelect()}>
+              New
+            </button>
+          </li>
+        )}
       </ul>
     </header>
   );

@@ -12,14 +12,16 @@ import { v4 as uuidv4 } from 'uuid';
 import { SavedMap } from '../../types/SavedMap';
 import MapPicker from '../MapPicker/MapPicker';
 
+const initialMaps = [map1, map2, map3];
+
 export type GameMode = 'edit' | 'play';
 
 const App = () => {
-  const [maps, setMaps] = useState([map1, map2, map3]);
+  const [maps, setMaps] = useState(initialMaps);
   const [selectedMapId, setSelectedMapId] = useState<
     SavedMap['id'] | undefined
-  >();
-  const [mode, setMode] = useState<GameMode>('edit');
+  >(initialMaps[0].id);
+  const [mode, setMode] = useState<GameMode>('play');
 
   const currentMapScheme =
     useMemo(
