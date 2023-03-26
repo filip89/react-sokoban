@@ -1,33 +1,46 @@
 @use 'src/styles/menu';
+@use 'src/styles/utils';
 
 .container {
   flex-shrink: 0;
   padding-inline: 30px;
   display: flex;
+  align-items: center;
   height: 80px;
   gap: 20px;
   background-color: menu.$menuColor;
 }
 
-.modeButton {
-  align-self: center;
-}
-
 .maps {
   flex: 1;
   display: flex;
+  align-items: center;
   gap: 5px;
   overflow-x: auto;
 }
 
-.map {
+.mapItem {
+  position: relative;
   flex-shrink: 0;
   width: 80px;
-  background-color: sandybrown;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
 
   &--selected {
-    background-color: darkblue;
+    filter: opacity(50%);
   }
+}
+
+.mapContainer {
+  display: inline-block;
+  cursor: pointer;
+  @include utils.absolutelyCentered;
+}
+
+.newMapText {
+  font-weight: 700;
+  text-transform: uppercase;
+  @include utils.absolutelyCentered;
 }
 
 .mapButton {

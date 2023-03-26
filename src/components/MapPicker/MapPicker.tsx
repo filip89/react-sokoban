@@ -2,6 +2,8 @@ import styles from './MapPicker.module.scss';
 import { SavedMap } from '../../types/SavedMap';
 import { GameMode } from '../App/App';
 import Button from '../Button/Button';
+import PreviewMap from './PreviewMap/PreviewMap';
+import { emptyTemplate } from '../../maps/emptyTemplate';
 
 type Props = {
   maps: SavedMap[];
@@ -18,9 +20,9 @@ const MapPicker = ({
   mode,
   onModeChange,
 }: Props) => {
-  function getMapClassName(mapId?: SavedMap['id']) {
-    return `${styles.map} ${
-      mapId === selectedMapId ? styles['map--selected'] : ''
+  function getMapItemClassName(mapId?: SavedMap['id']) {
+    return `${styles.mapItem} ${
+      mapId === selectedMapId ? styles['mapItem--selected'] : ''
     }`;
   }
 
@@ -33,19 +35,23 @@ const MapPicker = ({
       </div>
       <ul className={styles.maps}>
         {maps.map((map) => (
-          <li key={map.id} className={getMapClassName(map.id)}>
+          <li key={map.id} className={getMapItemClassName(map.id)}>
             <button
-              className={styles.mapButton}
+              className={styles.mapContainer}
               onClick={() => onMapSelect(map.id)}
             >
-              {map.id}
+              <PreviewMap key={map.id} scheme={map.scheme} />
             </button>
           </li>
         ))}
         {mode === 'edit' && (
-          <li className={getMapClassName()}>
-            <button className={styles.mapButton} onClick={() => onMapSelect()}>
-              New
+          <li className={getMapItemClassName()}>
+            <button
+              className={styles.mapContainer}
+              onClick={() => onMapSelect()}
+            >
+              <PreviewMap scheme={emptyTemplate} />
+              <div className={styles.newMapText}>New map</div>
             </button>
           </li>
         )}

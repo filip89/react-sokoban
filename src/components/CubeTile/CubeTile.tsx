@@ -1,14 +1,13 @@
 import styles from './CubeTile.module.scss';
-import MapTile from '../MapTile/MapTile';
+import MapTile, { MapTileProps } from '../MapTile/MapTile';
 
 export type CubeTileProps = {
   color: string;
-  zIndex?: number;
-};
+} & Pick<MapTileProps, 'zIndex' | 'size'>;
 
-const CubeTile = ({ color, zIndex }: CubeTileProps) => {
+const CubeTile = ({ color, zIndex, size }: CubeTileProps) => {
   return (
-    <MapTile zIndex={zIndex}>
+    <MapTile zIndex={zIndex} size={size}>
       <div className={styles.top} style={{ color }} />
       <div className={styles.side} style={{ color }} />
     </MapTile>

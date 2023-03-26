@@ -56,8 +56,8 @@ const App = () => {
       <MapPicker
         selectedMapId={selectedMapId}
         maps={maps}
-        onMapSelect={(mapId) => setSelectedMapId(mapId)}
         mode={mode}
+        onMapSelect={(mapId) => setSelectedMapId(mapId)}
         onModeChange={handleModeChange}
       />
       {mode === 'edit' ? (

@@ -1,7 +1,7 @@
-import CubeTile from '../../CubeTile/CubeTile';
+import CubeTile, { CubeTileProps } from '../../CubeTile/CubeTile';
 
-const Player = ({ zIndex }: { zIndex?: number }) => {
-  return <CubeTile color="blue" zIndex={zIndex} />;
+const Player = ({ zIndex, size }: Pick<CubeTileProps, 'zIndex' | 'size'>) => {
+  return <CubeTile color="blue" zIndex={zIndex} size={size} />;
 };
 
 export default Player;

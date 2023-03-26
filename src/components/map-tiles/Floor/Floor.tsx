@@ -1,9 +1,9 @@
 import styles from './Floor.module.scss';
-import MapTile from '../../MapTile/MapTile';
+import MapTile, { MapTileProps } from '../../MapTile/MapTile';
 
-const Floor = () => {
+const Floor = ({ size }: Pick<MapTileProps, 'size'>) => {
   return (
-    <MapTile>
+    <MapTile size={size}>
       <div className={styles.floor} />
     </MapTile>
   );
