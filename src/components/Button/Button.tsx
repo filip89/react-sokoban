@@ -1,13 +1,10 @@
 import styles from './Button.module.scss';
-import { PropsWithChildren } from 'react';
 
-type Props = {
-  onClick: () => unknown;
-} & PropsWithChildren;
+type Props = React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-const Button = ({ children, onClick }: Props) => {
+const Button = ({ children, ...props }: Props) => {
   return (
-    <button className={styles.button} onClick={onClick} type="button">
+    <button className={styles.button} type="button" {...props}>
       {children}
     </button>
   );

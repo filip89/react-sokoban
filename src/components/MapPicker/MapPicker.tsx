@@ -1,14 +1,15 @@
 import styles from './MapPicker.module.scss';
-import { SavedMap } from '../../types/SavedMap';
-import { GameMode } from '../App/App';
+import { SavedMap, SavedMapId } from '../../types/SavedMap';
+import { GameMode } from '../../App';
 import Button from '../Button/Button';
-import PreviewMap from './PreviewMap/PreviewMap';
+import PreviewMap from './components/PreviewMap/PreviewMap';
 import { emptyTemplate } from '../../maps/emptyTemplate';
+import MapPickerItemSlot from './components/MapPickerItemSlot/MapPickerItemSlot';
 
 type Props = {
   maps: SavedMap[];
-  onMapSelect: (mapId?: SavedMap['id']) => unknown;
-  selectedMapId?: SavedMap['id'];
+  onMapSelect: (mapId?: SavedMapId) => unknown;
+  selectedMapId?: SavedMapId;
   mode: GameMode;
   onModeChange: () => unknown;
 };
@@ -20,40 +21,29 @@ const MapPicker = ({
   mode,
   onModeChange,
 }: Props) => {
-  function getMapItemClassName(mapId?: SavedMap['id']) {
-    return `${styles.mapItem} ${
-      mapId === selectedMapId ? styles['mapItem--selected'] : ''
-    }`;
-  }
-
   return (
     <header className={styles.container}>
-      <div className={styles.modeButton}>
-        <Button onClick={onModeChange}>
-          {mode === 'edit' ? 'Play' : 'Edit'}
-        </Button>
-      </div>
+      <Button onClick={onModeChange}>
+        {mode === 'edit' ? 'Play' : 'Edit'}
+      </Button>
       <ul className={styles.maps}>
         {maps.map((map) => (
-          <li key={map.id} className={getMapItemClassName(map.id)}>
-            <button
-              className={styles.mapContainer}
-              onClick={() => onMapSelect(map.id)}
-            >
-              <PreviewMap key={map.id} scheme={map.scheme} />
-            </button>
-          </li>
+          <MapPickerItemSlot
+            key={map.id}
+            isSelected={map.id === selectedMapId}
+            onSelect={() => onMapSelect(map.id)}
+          >
+            <PreviewMap scheme={map.scheme} />
+          </MapPickerItemSlot>
         ))}
         {mode === 'edit' && (
-          <li className={getMapItemClassName()}>
-            <button
-              className={styles.mapContainer}
-              onClick={() => onMapSelect()}
-            >
-              <PreviewMap scheme={emptyTemplate} />
-              <div className={styles.newMapText}>New map</div>
-            </button>
-          </li>
+          <MapPickerItemSlot
+            isSelected={!selectedMapId}
+            onSelect={() => onMapSelect()}
+          >
+            <PreviewMap scheme={emptyTemplate} />
+            <div className={styles.newMapText}>New map</div>
+          </MapPickerItemSlot>
         )}
       </ul>
     </header>

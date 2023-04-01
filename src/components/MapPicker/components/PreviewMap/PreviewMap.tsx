@@ -1,16 +1,16 @@
-import Map from '../../Map/Map';
-import { TileSign } from '../../../types/TileSign';
-import { Location } from '../../../types/Location';
-import { signs } from '../../../data/signs';
-import Wall from '../../map-tiles/Wall/Wall';
-import Destination from '../../map-tiles/Destination/Destination';
-import MapTile from '../../MapTile/MapTile';
-import Floor from '../../map-tiles/Floor/Floor';
+import Map from '../../../Map/Map';
+import { TileSign } from '../../../../types/TileSign';
+import { Location } from '../../../../types/Location';
+import { signs } from '../../../../data/signs';
+import Wall from '../../../map-tiles/Wall/Wall';
+import Destination from '../../../map-tiles/Destination/Destination';
+import MapTile from '../../../MapTile/MapTile';
+import Floor from '../../../map-tiles/Floor/Floor';
 import React from 'react';
-import { MapScheme } from '../../../types/MapScheme';
-import Player from '../../map-tiles/Player/Player';
-import Box from '../../map-tiles/Box/Box';
-import { config } from '../../../data/config';
+import Player from '../../../map-tiles/Player/Player';
+import Box from '../../../map-tiles/Box/Box';
+import { config } from '../../../../data/config';
+import { MapScheme } from '../../../../types/MapScheme';
 
 type Props = {
   scheme: MapScheme;

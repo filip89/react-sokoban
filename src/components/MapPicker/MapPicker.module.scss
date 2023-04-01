@@ -19,32 +19,8 @@
   overflow-x: auto;
 }
 
-.mapItem {
-  position: relative;
-  flex-shrink: 0;
-  width: 80px;
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-
-  &--selected {
-    filter: opacity(50%);
-  }
-}
-
-.mapContainer {
-  display: inline-block;
-  cursor: pointer;
-  @include utils.absolutelyCentered;
-}
-
 .newMapText {
   font-weight: 700;
   text-transform: uppercase;
   @include utils.absolutelyCentered;
-}
-
-.mapButton {
-  width: 100%;
-  height: 100%;
-  background-color: inherit;
 }
