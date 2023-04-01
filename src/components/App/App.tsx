@@ -16,11 +16,12 @@ const initialMaps = [map1, map2];
 export type GameMode = 'edit' | 'play';
 
 const App = () => {
+  const [mode, setMode] = useState<GameMode>('play');
   const [maps, setMaps] = useState(initialMaps);
+  const [gameResetKey, setGameResetKey] = useState(0);
   const [selectedMapId, setSelectedMapId] = useState<
     SavedMap['id'] | undefined
   >(initialMaps[0].id);
-  const [mode, setMode] = useState<GameMode>('play');
 
   function handleMapSave(scheme: MapScheme) {
     selectedMapId ? updateMap(scheme) : addMap(scheme);
@@ -45,6 +46,11 @@ const App = () => {
     setMode((mode) => (mode === 'play' ? 'edit' : 'play'));
   }
 
+  function handleMapChange(mapId?: SavedMap['id']) {
+    setSelectedMapId(mapId);
+    setGameResetKey((key) => key + 1);
+  }
+
   const currentMapScheme =
     useMemo(
       () => maps.find((map) => map.id === selectedMapId),
@@ -57,7 +63,7 @@ const App = () => {
         selectedMapId={selectedMapId}
         maps={maps}
         mode={mode}
-        onMapSelect={(mapId) => setSelectedMapId(mapId)}
+        onMapSelect={handleMapChange}
         onModeChange={handleModeChange}
       />
       {mode === 'edit' ? (
@@ -67,7 +73,12 @@ const App = () => {
           onSave={handleMapSave}
         />
       ) : (
-        selectedMapId && <Game key={selectedMapId} map={currentMapScheme} />
+        selectedMapId && (
+          <Game
+            key={`${selectedMapId}_${gameResetKey}`}
+            map={currentMapScheme}
+          />
+        )
       )}
     </div>
   );
