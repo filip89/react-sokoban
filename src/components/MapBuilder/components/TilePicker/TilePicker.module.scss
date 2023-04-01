@@ -1,5 +1,7 @@
+@use 'src/styles/menu';
+
 .container {
-  background-color: black;
+  background-color: menu.$menuColor;
   padding: 30px;
   width: 100%;
   overflow: auto;

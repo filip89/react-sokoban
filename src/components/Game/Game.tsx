@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import useInputDirection from './hooks/useInputDirection/useInputDirection';
 import { extractLocationsFromMap } from './utils/extractLocationsFromMap';
 import Box from '../map-tiles/Box/Box';
-import { isBoxAtLocation } from './utils/isBoxAtLocation';
+import { isAnyBoxAtLocation } from './utils/isAnyBoxAtLocation';
 import { checkIfBoxesDelivered } from './utils/checkIfBoxesDelivered';
 import { MapScheme } from '../../types/MapScheme';
 import { getMovementLocation } from './utils/getMovementLocation';
@@ -38,31 +38,37 @@ function Game({ map }: Props) {
 
   function handleMovementEnd() {
     setIsAnimating(false);
-    attemptMovement();
   }
 
   function attemptMovement() {
     if (!inputDirection || isSolved || isAnimating) return;
     const movementLocation = getMovementLocation(map, player, inputDirection);
     if (!movementLocation) return;
-    const box = isBoxAtLocation(movementLocation, boxes);
-    if (box) {
+    const movedBox = isAnyBoxAtLocation(movementLocation, boxes);
+
+    if (movedBox) {
       const boxMovementLocation = getMovementLocation(
         map,
-        box.location,
+        movedBox.location,
         inputDirection,
       );
-      if (!boxMovementLocation || isBoxAtLocation(boxMovementLocation, boxes))
+
+      if (
+        !boxMovementLocation ||
+        isAnyBoxAtLocation(boxMovementLocation, boxes)
+      ) {
         return;
+      }
 
       setBoxes((boxes) =>
         boxes.map((item) =>
-          item.id === box.id
-            ? { id: box.id, location: boxMovementLocation }
+          item.id === movedBox.id
+            ? { id: movedBox.id, location: boxMovementLocation }
             : item,
         ),
       );
     }
+
     setPlayer(movementLocation);
     setIsAnimating(true);
   }
