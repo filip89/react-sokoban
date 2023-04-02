@@ -1,15 +1,15 @@
-import Map from '../../../Map/Map';
+import Map from '../../../map-components/Map/Map';
 import { TileSign } from '../../../../types/TileSign';
 import { Location } from '../../../../types/Location';
 import { signs } from '../../../../data/signs';
-import Wall from '../../../map-tiles/Wall/Wall';
-import Destination from '../../../map-tiles/Destination/Destination';
-import MapTile from '../../../MapTile/MapTile';
-import Floor from '../../../map-tiles/Floor/Floor';
+import Wall from '../../../map-components/tiles/Wall/Wall';
+import Destination from '../../../map-components/tiles/Destination/Destination';
+import MapTile from '../../../map-components/MapTile/MapTile';
+import Floor from '../../../map-components/tiles/Floor/Floor';
 import React from 'react';
-import Player from '../../../map-tiles/Player/Player';
-import Box from '../../../map-tiles/Box/Box';
-import { config } from '../../../../data/config';
+import Player from '../../../map-components/tiles/Player/Player';
+import Box from '../../../map-components/tiles/Box/Box';
+import { sizeConfig } from '../../../../configs/sizeConfig';
 import { MapScheme } from '../../../../types/MapScheme';
 
 type Props = {
@@ -23,7 +23,7 @@ const PreviewMap = ({ scheme }: Props) => {
 export default PreviewMap;
 
 function getTileComponentBySign(sign: TileSign, location: Location) {
-  const tileSize = config.tilePreviewSize;
+  const tileSize = sizeConfig.tilePreviewSize;
   if (sign === signs.wall) return <Wall zIndex={location.y} size={tileSize} />;
   if (sign === signs.destination) return <Destination size={tileSize} />;
   if (sign === signs.box) return <Box size={tileSize} />;

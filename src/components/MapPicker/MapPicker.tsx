@@ -1,9 +1,9 @@
 import styles from './MapPicker.module.scss';
 import { SavedMap, SavedMapId } from '../../types/SavedMap';
-import { GameMode } from '../../App';
-import Button from '../Button/Button';
+import { GameMode } from '../App/App';
+import Button from '../misc/Button/Button';
 import PreviewMap from './components/PreviewMap/PreviewMap';
-import { emptyTemplate } from '../../maps/emptyTemplate';
+import { emptyTemplate } from '../../data/maps/emptyTemplate';
 import MapPickerItemSlot from './components/MapPickerItemSlot/MapPickerItemSlot';
 
 type Props = {
