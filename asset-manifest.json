@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/sokoban/static/css/main.6d31ea9f.css",
+    "main.js": "/sokoban/static/js/main.bc89f129.js",
+    "index.html": "/sokoban/index.html",
+    "main.6d31ea9f.css.map": "/sokoban/static/css/main.6d31ea9f.css.map",
+    "main.bc89f129.js.map": "/sokoban/static/js/main.bc89f129.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6d31ea9f.css",
+    "static/js/main.bc89f129.js"
+  ]
+}
