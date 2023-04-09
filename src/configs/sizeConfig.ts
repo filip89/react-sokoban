@@ -1,4 +1,5 @@
+//in pixels
 export const sizeConfig = {
-  tileSize: '40px',
-  tilePreviewSize: '8px',
+  tileSize: 40,
+  tilePreviewSize: 8,
 };

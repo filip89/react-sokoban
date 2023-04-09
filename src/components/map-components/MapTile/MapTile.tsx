@@ -4,7 +4,7 @@ import { sizeConfig } from '../../../configs/sizeConfig';
 
 export type MapTileProps = {
   zIndex?: number;
-  size?: string;
+  size?: number;
 } & PropsWithChildren;
 
 const MapTile = ({
@@ -15,7 +15,7 @@ const MapTile = ({
   return (
     <div
       className={styles.container}
-      style={{ zIndex, width: size, height: size }}
+      style={{ zIndex, width: `${size}px`, height: `${size}px` }}
     >
       {children}
     </div>

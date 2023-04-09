@@ -1,6 +1,7 @@
 import styles from './Movable.module.scss';
 import { Location } from '../../../types/Location';
 import { PropsWithChildren } from 'react';
+import { sizeConfig } from '../../../configs/sizeConfig';
 
 export type MovableObjectProps = {
   location: Location;
@@ -21,7 +22,7 @@ const Movable = ({ location, onMovementEnd, children }: MovableObjectProps) => {
 };
 
 function getLocationCssDistance(location: Location) {
-  const stepSize = 40;
+  const stepSize = sizeConfig.tileSize;
   return { x: location.x * stepSize, y: location.y * stepSize };
 }
 
