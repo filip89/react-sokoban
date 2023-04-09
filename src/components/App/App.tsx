@@ -1,10 +1,10 @@
 import styles from './App.module.scss';
-import BuildMode from '../BuildMode/BuildMode';
-import PlayMode from '../PlayMode/PlayMode';
+import BuildMode from './components/BuildMode/BuildMode';
+import PlayMode from './components/PlayMode/PlayMode';
 import React, { useState } from 'react';
 import { MapScheme } from '../../types/MapScheme';
 import { SavedMapId } from '../../types/SavedMap';
-import MapPicker from '../MapPicker/MapPicker';
+import MapPicker from './components/MapPicker/MapPicker';
 import { useMaps } from './hooks/useMaps';
 
 export type GameMode = 'edit' | 'play';
