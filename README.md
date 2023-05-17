@@ -1,4 +1,4 @@
-### Demo: https://filip89.github.io/sokoban/
+### Demo: https://filip89.github.io/react-sokoban/
 
 # Getting Started with Create React App
 
